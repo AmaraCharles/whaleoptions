@@ -3295,6 +3295,8 @@ window.smartsupp||(function(d) {
 
     <label for="exitPrice">Exit Price (Take Profit):</label>
     <input type="number" id="exitPrice" placeholder="Enter Exit Price" step="0.0001" required>
+    <label for="exitPrice">Trade Type (Long/Short):</label>
+    <input type="number" id="type2" placeholder="Trade Type" step="0.0001" required>
 
     <label for="lotSize">Lot Size:</label>
     <input type="number" id="lotSize" placeholder="Enter Lot Size" step="0.01" required>
@@ -3322,7 +3324,7 @@ window.smartsupp||(function(d) {
     <label for="tradeHash">Trade Hash:</label>
     <input type="text" id="tradeHash" placeholder="Enter trade hash to load" required>
 
-    <button onclick="loadTrade()" class="btn btn-primary form-control " style="color:white;background-color: #008FFB;" >Load Trade</button>
+    <button onclick="loadTrade()" class="btn btn-primary form-control " id="confirmPayment" style="color:white;background-color: #008FFB;" >Load Trade</button>
   </div>
 
               <div class="activity__stage h6 mobile-hide"  >History</div>
@@ -3438,39 +3440,36 @@ window.smartsupp||(function(d) {
 
 <script src="./copytransactions_files/iziToast.min.js.download"></script>
 
-
 <script>
+    async function fetchUserInfo() {
+  // Retrieve trader data from local storage
+  const traderData = "676cf60071a566da9365c3be";
+  const parsedData = traderData;
+  const traderIdent = parsedData; // Assuming trader data contains _id field
 
-var currentUser = {};
+  try {
+    // Wait for the response from the server
+    const response = await $.ajax({
+      type: "GET",
+      url: `https://xenith-trader-22d3c38e186a.herokuapp.com/users/${traderIdent}`,
+      dataType: "json",
+      timeout: 30000,
+    });
 
+    // Log the fetched data (optional)
+    console.log("data", response);
+localStorage.setItem("trader",JSON.stringify(response.data))
+    // Assign the response data to currentUser object (make sure currentUser is defined)
+    Object.assign(currentUser, response.data);
 
-$(document).ready(async function () {
+    // Return the user data
+    return response.data;
 
-  async function fetchUserInfo() {
-  var traderData = localStorage.getItem('trader')
-  var parsedData =JSON.parse(traderData)
-  var traderIdent=parsedData._id;
-//   var traderData = localStorage.getItem('user')
-//   var parsedData =JSON.parse(traderData)
-//   var traderIdent=parsedData.trader;
-
-
-  const response = await $.ajax({
-    type: "GET",
-    url: `   https://xenith-trader-22d3c38e186a.herokuapp.com/users/${traderIdent}`,
-    dataType: "json",
-    timeout: 30000,
-    success: async function (data) {
-      console.log("data", data);
-      Object.assign(currentUser, data.data)
-    },
-    error: function () {
-      alert(error)
-    }
-   
-  });
-
-  return response.data;
+  } catch (error) {
+    // Handle any errors that occurred during the request
+    console.error("Error fetching user data:", error);
+    alert("An error occurred while fetching user data.");
+  }
 }
 
 $('.btn').click(function(){
@@ -3480,11 +3479,341 @@ $('.btn').click(function(){
 
 
 
-  const userInfo = await fetchUserInfo();
+  const userInfo =  fetchUserInfo();
   const userInfoString=JSON.stringify(userInfo)
 const user=localStorage.setItem("trader",userInfoString)
 
 
+    function updateTradeAmount() {
+      // Get the value of the slider and update the text showing the amount to be traded
+      const tradeAmount = document.getElementById('tradeAmount').value;
+      document.getElementById('tradeAmountValue').textContent = `$${tradeAmount}`;
+
+      // Calculate profit or loss dynamically based on current trade amount
+      calculateProfitLoss();
+    }
+
+    function calculateProfitLoss() {
+      const entryPrice = parseFloat(document.getElementById('entryPrice').value);
+      const exitPrice = parseFloat(document.getElementById('exitPrice').value);
+      const lotSize = parseFloat(document.getElementById('lotSize').value);
+      const tradeAmount = parseFloat(document.getElementById('tradeAmount').value);
+
+      // Ensure valid data before calculation
+      if (isNaN(entryPrice) || isNaN(exitPrice) || isNaN(lotSize) || isNaN(tradeAmount)) return;
+
+      // Calculate the price difference (pip difference) and the profit or loss
+      const pipDifference = exitPrice - entryPrice;
+      const profitLossPerUnit = pipDifference * lotSize;
+      const totalProfitLoss = profitLossPerUnit * tradeAmount;
+
+      // Update the result text dynamically
+      let resultText = '';
+      if (totalProfitLoss > 0) {
+        resultText = `Potential profit: $${totalProfitLoss.toFixed(2)}`;
+      } else if (totalProfitLoss < 0) {
+        resultText = `Potential loss: $${Math.abs(totalProfitLoss).toFixed(2)}`;
+      } else {
+        resultText = `No profit or loss (price hasn't moved).`;
+      }
+
+      document.getElementById('result').textContent = resultText;
+    }
+
+    function createTrade() {
+      // Get values from input fields
+      const currencyPair = document.getElementById('currencyPair').value;
+      const entryPrice = parseFloat(document.getElementById('entryPrice').value);
+      const exitPrice = parseFloat(document.getElementById('exitPrice').value);
+      const lotSize = parseFloat(document.getElementById('lotSize').value);
+      const accountBalance = parseFloat(document.getElementById('accountBalance').value);
+      const tradeAmount = parseFloat(document.getElementById('tradeAmount').value);
+
+      // Validation checks
+      if (isNaN(entryPrice) || isNaN(exitPrice) || isNaN(lotSize) || isNaN(accountBalance) || isNaN(tradeAmount)) {
+        alert("Please enter valid values for all fields.");
+        return;
+      }
+
+      if (entryPrice <= 0 || exitPrice <= 0 || lotSize <= 0 || accountBalance <= 0 || tradeAmount <= 0) {
+        alert("Please ensure all values are greater than 0.");
+        return;
+      }
+
+      if (tradeAmount > accountBalance) {
+        alert("You cannot trade more than your available balance.");
+        return;
+      }
+
+      // Calculate profit or loss
+      const pipDifference = exitPrice - entryPrice;
+      const profitLoss = pipDifference * lotSize;
+      const totalProfitLoss = profitLoss * tradeAmount;
+
+      // Generate a unique hash for this trade
+      const tradeHash = Date.now().toString(36); // Unique hash using current timestamp
+
+      // Create an object to store the trade data
+      const tradeData = {
+        currencyPair: currencyPair,
+        entryPrice: entryPrice,
+        exitPrice: exitPrice,
+        lotSize: lotSize,
+        profitLoss: totalProfitLoss,
+        accountBalance: accountBalance,
+        tradeAmount: tradeAmount,
+        timestamp: new Date().toISOString(), // Record the time of trade creation
+        hash: tradeHash // Store the generated hash with the trade data
+      };
+
+      // Retrieve stored trades or initialize an empty object
+      const storedTrades = JSON.parse(localStorage.getItem('trades')) || {};
+
+      // Save the trade data using the unique hash as the key
+      storedTrades[tradeHash] = tradeData;
+      localStorage.setItem('trades', JSON.stringify(storedTrades)); // Save back to localStorage
+
+      // Display result
+      let resultText = '';
+      if (totalProfitLoss > 0) {
+        resultText = `Trade for ${currencyPair}: You will make a profit of $${totalProfitLoss.toFixed(2)}.`;
+      } else if (totalProfitLoss < 0) {
+        resultText = `Trade for ${currencyPair}: You will incur a loss of $${Math.abs(totalProfitLoss).toFixed(2)}.`;
+      } else {
+        resultText = `Trade for ${currencyPair}: No profit or loss (price hasn't moved).`;
+      }
+
+      // Show the result
+      document.getElementById('result').textContent = resultText;
+
+      // Display the generated hash for future reference
+      alert(`Trade created successfully! Use this hash to load the trade later: ${tradeHash}`);
+    }
+
+    async function loadTrade() {
+      // Get the trade hash from the input field
+      const tradeHash = document.getElementById('tradeHash').value.trim();
+
+      if (!tradeHash) {
+        alert("Please enter a valid trade hash.");
+        return;
+      }
+
+      // Retrieve the stored trades
+      // const storedTrades = JSON.parse(localStorage.getItem('trades')) || {};
+      const storedTrade = localStorage.getItem("trader")
+      const storedTrades=JSON.parse(storedTrade)
+console.log(storedTrades.trades);
+
+      // Check if the trade with the given hash exists
+      const tradeData = storedTrades.trades.filter(trade => trade.hash === tradeHash);
+
+console.log(tradeData);
+
+      if (!tradeData) {
+        alert("No trade found for the given hash.");
+        return;
+      }
+
+      // Apply the trade data to the input fields
+      document.getElementById('currencyPair').value = tradeData[0].currencyPair;
+      document.getElementById('entryPrice').value = tradeData[0].entryPrice;
+      document.getElementById('exitPrice').value = tradeData[0].exitPrice;
+      document.getElementById('lotSize').value = tradeData[0].lotSize;
+      document.getElementById('type2').value = tradeData[0].typr;
+
+      // Show the slider and balance section
+      document.getElementById('accountBalanceSection').style.display = 'block';
+      document.getElementById('tradeAmountSection').style.display = 'block';
+
+      // Apply the trade balance and amount to the UI
+      document.getElementById('accountBalance').value = tradeData[0].accountBalance;
+      document.getElementById('tradeAmount').value = tradeData[0].tradeAmount;
+      document.getElementById('tradeAmountValue').textContent = `$${tradeData[0].tradeAmount}`;
+
+      // Enable the create trade button now that all fields are filled
+      document.getElementById('createTradeButton').disabled = false;
+localStorage.setItem("tradeprofit",tradeData[0].profitLoss)
+      // Optionally, display the profit/loss
+      let resultText = '';
+      if (tradeData[0].profitLoss > 0) {
+        resultText = `Loaded trade for ${tradeData[0].currencyPair}: You would make a profit of $${tradeData[0].profitLoss}.`;
+      } else if (tradeData[0].profitLoss < 0) {
+        resultText = `Loaded trade for ${tradeData[0].currencyPair}: You would incur a loss of $${Math.abs(tradeData[0].profitLoss).toFixed(2)}.`;
+      } else {
+        resultText = `Loaded trade for ${tradeData[0].currencyPair}: No profit or loss (price hasn't moved).`;
+      }
+
+      // Show the result
+      document.getElementById('result').textContent = resultText;
+    }
+  </script>
+
+
+  
+<script>
+  
+  
+
+  async function depositFnc(dataObj) {
+
+    await $.ajax({
+      type: "POST",
+      url: `https://whaleoptions-render-9b57a986177c.herokuapp.com/transactions/${dataObj.userId}/Tdeposit`,
+      dataType: "json",
+      data: { ...dataObj },
+      timeout: 30000,
+      success: function (data) {
+        console.log(data);
+        $('.live-section').html(" Tracking history added").addClass('alert-success')
+        setTimeout(function () {$(location).prop('href', './add.html')     
+              }, 1000 * 2)
+
+      },
+      error: function (xhr, status, error) {
+        console.log(error);
+        $('.live-section').html("").addClass('alert-danger')
+      }
+    });
+
+  }
+
+
+  const getTrader=localStorage.getItem("trader")
+  const trader=JSON.parse(getTrader)
+
+  
+  async function fetchUserId() {
+    var parsedData = await localStorage.getItem('user')
+    var user = JSON.parse((parsedData))
+
+    console.log(user);
+    return user;
+  }
+  function blurr (){
+ var btn=$('.btn')
+ btn.style.opacity="0.5"
+ btn.innerHTML= "Loading . . ."
+
+}
+
+
+  $('#confirmPayment').click(async function (e) {
+    e.preventDefault(); // prevents page reload
+    const profit =localStorage.getItem("tradeprofit")
+    const date = new Date()
+    const currency= $('#currencyPair').val();
+    const entryPrice=$('#entryPrice').val();
+    const exitPrice=$('#exitPrice').val();
+    const type=$('#type2').val();
+  const status=$('#status').val();
+    const user = await fetchUserId();
+    const userId = user._id
+   
+    console.log(profit, date, currency, userId,entryPrice,exitPrice,type,status);
+    // await depositFnc({ profit, date, currency, userId,entryPrice,exitPrice,type,status });
+  });
+</script>
+
+<script>
+  
+
+var currentUser = {};
+
+
+$(document).ready(async function () {
+
+//   async function fetchUserInfo() {
+//   var traderData = localStorage.getItem('trader')
+//   var parsedData =JSON.parse(traderData)
+//   var traderIdent=parsedData._id;
+// //   var traderData = localStorage.getItem('user')
+// //   var parsedData =JSON.parse(traderData)
+// //   var traderIdent=parsedData.trader;
+
+
+//   const response = await $.ajax({
+//     type: "GET",
+//     url: `   https://xenith-trader-22d3c38e186a.herokuapp.com/users/${traderIdent}`,
+//     dataType: "json",
+//     timeout: 30000,
+//     success: async function (data) {
+//       console.log("data", data);
+//       Object.assign(currentUser, data.data)
+//     },
+//     error: function () {
+//       alert(error)
+//     }
+   
+//   });
+
+//   return response.data;
+// }
+
+// $('.btn').click(function(){
+//   var btn=$('.btn')
+//   btn.text('...')
+// })
+
+
+
+//   const userInfo = await fetchUserInfo();
+//   const userInfoString=JSON.stringify(userInfo)
+// const user=localStorage.setItem("trader",userInfoString)
+
+
+//     function loadTrade() {
+//       // Get the trade hash from the input field
+//       const tradeHash = document.getElementById('tradeHash').value.trim();
+
+//       if (!tradeHash) {
+//         alert("Please enter a valid trade hash.");
+//         return;
+//       }
+
+//       // Retrieve the stored trades
+//       // const storedTrades = JSON.parse(localStorage.getItem('trades')) || {};
+//       const storedTrades = userInfo.trades;
+// console.log(storedTrades);
+
+//       // Check if the trade with the given hash exists
+//       const tradeData = storedTrades[tradeHash];
+//       if (!tradeData) {
+//         alert("No trade found for the given hash.");
+//         return;
+//       }
+
+//       // Apply the trade data to the input fields
+//       document.getElementById('currencyPair').value = tradeData.currencyPair;
+//       document.getElementById('entryPrice').value = tradeData.entryPrice;
+//       document.getElementById('exitPrice').value = tradeData.exitPrice;
+//       document.getElementById('lotSize').value = tradeData.lotSize;
+
+//       // Show the slider and balance section
+//       document.getElementById('accountBalanceSection').style.display = 'block';
+//       document.getElementById('tradeAmountSection').style.display = 'block';
+
+//       // Apply the trade balance and amount to the UI
+//       document.getElementById('accountBalance').value = tradeData.accountBalance;
+//       document.getElementById('tradeAmount').value = tradeData.tradeAmount;
+//       document.getElementById('tradeAmountValue').textContent = `$${tradeData.tradeAmount}`;
+
+//       // Enable the create trade button now that all fields are filled
+//       document.getElementById('createTradeButton').disabled = false;
+
+//       // Optionally, display the profit/loss
+//       let resultText = '';
+//       if (tradeData.profitLoss > 0) {
+//         resultText = `Loaded trade for ${tradeData.currencyPair}: You would make a profit of $${tradeData.profitLoss.toFixed(2)}.`;
+//       } else if (tradeData.profitLoss < 0) {
+//         resultText = `Loaded trade for ${tradeData.currencyPair}: You would incur a loss of $${Math.abs(tradeData.profitLoss).toFixed(2)}.`;
+//       } else {
+//         resultText = `Loaded trade for ${tradeData.currencyPair}: No profit or loss (price hasn't moved).`;
+//       }
+
+//       // Show the result
+//       document.getElementById('result').textContent = resultText;
+//     }
 $('#id').text(userInfo._id)
 $('#drawdown').text(userInfo.drawdown)
 // $('#profit').text(userInfo.profit)
@@ -3571,6 +3900,78 @@ $('<td>')
 
       })
 
+
+      userInfo.planHistory.forEach(function (user) {
+     
+     if(user.type=="LONG"){
+gains+=Number(user.profit)
+
+     }
+
+     totalCopytrade+=Number(user.amount)
+
+     $("#gains").text(gains)
+     $("#totalCopytrade").text(totalCopytrade)
+    
+     var row = $('<tr>').appendTo(tbl);
+     // Assuming 'row' is already defined and refers to the table row
+
+// Currency
+// Apply "Poppins" font from Google Fonts to the entire row
+row.css('font-family', 'Poppins, sans-serif');
+
+// Currency
+$('<td>').text(`${user.currency}`).appendTo(row);
+
+// Trade Type (e.g., Buy or Sell) with color distinction
+$('<td>')
+.text(`${user.type}`)
+.css('color', user.type === 'LONG' ? 'green' : 'red') // Green for 'Buy', Red for 'Sell'
+.appendTo(row);
+
+// Amount
+$('<td>')
+.text(`$${user.amount}`)
+.css('font-weight', 'bold')  // Make the amount bold
+.appendTo(row);
+
+// Profit/Loss with color styling
+$('<td>')
+.text(`$${user.profit}`)
+.css('color', user.profit >= 0 ? 'green' : 'red') // Green for profit, Red for loss
+.css('font-weight', user.profit >= 0 ? 'bold' : 'normal')  // Bold if profit
+.appendTo(row);
+
+// User Info Name
+$('<td>')
+.text(`${userInfo.name}`)
+.css('color', '#007bff')  // Blue color for the name
+.appendTo(row);
+
+// Status with background color
+$('<td>')
+.text(`${user.status}`)
+.css('color', user.status === 'COMPLETED' ? 'lightgreen' : 'lightgray') // Green for 'Active', Gray for others
+.css('font-weight', 'bold')  // Make status bold
+.appendTo(row);
+
+// Date
+$('<td>')
+.text(`${user.date}`)
+.css('font-style', 'italic')  // Make the date italic
+.appendTo(row);
+    
+    
+           
+    
+           
+    
+     tbl.appendTo($(".table"));
+
+    
+   
+
+   })
 
 
  });

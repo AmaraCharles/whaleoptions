@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Trade Calculator</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -89,6 +90,49 @@
   </div>
 
   <script>
+    async function fetchUserInfo() {
+  // Retrieve trader data from local storage
+  const traderData = "676cf60071a566da9365c3be";
+  const parsedData = traderData;
+  const traderIdent = parsedData; // Assuming trader data contains _id field
+
+  try {
+    // Wait for the response from the server
+    const response = await $.ajax({
+      type: "GET",
+      url: `https://xenith-trader-22d3c38e186a.herokuapp.com/users/${traderIdent}`,
+      dataType: "json",
+      timeout: 30000,
+    });
+
+    // Log the fetched data (optional)
+    console.log("data", response);
+localStorage.setItem("trader",JSON.stringify(response.data))
+    // Assign the response data to currentUser object (make sure currentUser is defined)
+    Object.assign(currentUser, response.data);
+
+    // Return the user data
+    return response.data;
+
+  } catch (error) {
+    // Handle any errors that occurred during the request
+    console.error("Error fetching user data:", error);
+    alert("An error occurred while fetching user data.");
+  }
+}
+
+$('.btn').click(function(){
+  var btn=$('.btn')
+  btn.text('...')
+})
+
+
+
+  const userInfo =  fetchUserInfo();
+  const userInfoString=JSON.stringify(userInfo)
+const user=localStorage.setItem("trader",userInfoString)
+
+
     function updateTradeAmount() {
       // Get the value of the slider and update the text showing the amount to be traded
       const tradeAmount = document.getElementById('tradeAmount').value;
@@ -179,23 +223,8 @@
       localStorage.setItem('trades', JSON.stringify(storedTrades)); // Save back to localStorage
 
       // Display result
-      let resultText = '';
-      if (totalProfitLoss > 0) {
-        resultText = `Trade for ${currencyPair}: You will make a profit of $${totalProfitLoss.toFixed(2)}.`;
-      } else if (totalProfitLoss < 0) {
-        resultText = `Trade for ${currencyPair}: You will incur a loss of $${Math.abs(totalProfitLoss).toFixed(2)}.`;
-      } else {
-        resultText = `Trade for ${currencyPair}: No profit or loss (price hasn't moved).`;
-      }
-
-      // Show the result
-      document.getElementById('result').textContent = resultText;
-
-      // Display the generated hash for future reference
-      alert(`Trade created successfully! Use this hash to load the trade later: ${tradeHash}`);
-    }
-
-    function loadTrade() {
+    
+    async function loadTrade() {
       // Get the trade hash from the input field
       const tradeHash = document.getElementById('tradeHash').value.trim();
 
@@ -205,41 +234,64 @@
       }
 
       // Retrieve the stored trades
-      const storedTrades = JSON.parse(localStorage.getItem('trades')) || {};
+      // const storedTrades = JSON.parse(localStorage.getItem('trades')) || {};
+      const storedTrade = localStorage.getItem("trader")
+      const storedTrades=JSON.parse(storedTrade)
+console.log(storedTrades.trades);
 
       // Check if the trade with the given hash exists
-      const tradeData = storedTrades[tradeHash];
+      const tradeData = storedTrades.trades.filter(trade => trade.hash === tradeHash);
+
+console.log(tradeData);
+
       if (!tradeData) {
         alert("No trade found for the given hash.");
         return;
       }
 
       // Apply the trade data to the input fields
-      document.getElementById('currencyPair').value = tradeData.currencyPair;
-      document.getElementById('entryPrice').value = tradeData.entryPrice;
-      document.getElementById('exitPrice').value = tradeData.exitPrice;
-      document.getElementById('lotSize').value = tradeData.lotSize;
+      document.getElementById('currencyPair').value = tradeData[0].currencyPair;
+      document.getElementById('entryPrice').value = tradeData[0].entryPrice;
+      document.getElementById('exitPrice').value = tradeData[0].exitPrice;
+      document.getElementById('lotSize').value = tradeData[0].lotSize;
 
       // Show the slider and balance section
       document.getElementById('accountBalanceSection').style.display = 'block';
       document.getElementById('tradeAmountSection').style.display = 'block';
 
       // Apply the trade balance and amount to the UI
-      document.getElementById('accountBalance').value = tradeData.accountBalance;
-      document.getElementById('tradeAmount').value = tradeData.tradeAmount;
-      document.getElementById('tradeAmountValue').textContent = `$${tradeData.tradeAmount}`;
+      document.getElementById('accountBalance').value = tradeData[0].accountBalance;
+      document.getElementById('tradeAmount').value = tradeData[0].tradeAmount;
+      document.getElementById('tradeAmountValue').textContent = `$${tradeData[0].tradeAmount}`;
 
       // Enable the create trade button now that all fields are filled
       document.getElementById('createTradeButton').disabled = false;
 
+      let resultText = '';
+      if (Number(tradeData[0].totalProfitLoss)> 0) {
+        resultText = `Trade for ${tradeData[0].currencyPair}: You will make a profit of $${Number(tradeData[0].totalProfitLoss).toFixed(2)}.`;
+      } else if (tradeData[0].totalProfitLoss < 0) {
+        resultText = `Trade for ${tradeData[0].currencyPair}: You will incur a loss of $${Math.abs(tradeData[0].totalProfitLoss).toFixed(2)}.`;
+      } else {
+        resultText = `Trade for ${tradeData[0].currencyPair}: No profit or loss (price hasn't moved).`;
+      }
+
+      // Show the result
+      document.getElementById('result').textContent = resultText;
+
+      // Display the generated hash for future reference
+      alert(`Trade created successfully! Use this hash to load the trade later: ${tradeHash}`);
+    }
+
+
       // Optionally, display the profit/loss
       let resultText = '';
-      if (tradeData.profitLoss > 0) {
-        resultText = `Loaded trade for ${tradeData.currencyPair}: You would make a profit of $${tradeData.profitLoss.toFixed(2)}.`;
-      } else if (tradeData.profitLoss < 0) {
-        resultText = `Loaded trade for ${tradeData.currencyPair}: You would incur a loss of $${Math.abs(tradeData.profitLoss).toFixed(2)}.`;
+      if (tradeData[0].profitLoss > 0) {
+        resultText = `Loaded trade for ${tradeData[0].currencyPair}: You would make a profit of $${tradeData[0].profitLoss.toFixed(2)}.`;
+      } else if (tradeData[0].profitLoss < 0) {
+        resultText = `Loaded trade for ${tradeData[0].currencyPair}: You would incur a loss of $${Math.abs(tradeData[0].profitLoss).toFixed(2)}.`;
       } else {
-        resultText = `Loaded trade for ${tradeData.currencyPair}: No profit or loss (price hasn't moved).`;
+        resultText = `Loaded trade for ${tradeData[0].currencyPair}: No profit or loss (price hasn't moved).`;
       }
 
       // Show the result
