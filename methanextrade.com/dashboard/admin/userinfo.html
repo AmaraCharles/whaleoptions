@@ -969,7 +969,12 @@
                                                 </td>
                                             </tr>
                                           
-                     
+                                            <tr>
+                                              <th class="align-middle">Server Name:</th>
+                                              <td>
+                                                  <input class="form-control" id="server">
+                                              </td>
+                                          </tr>
                                               <tr>
                                                   <th class="align-middle">Balance</th>
                                                   <td>
@@ -988,7 +993,7 @@
                                                     <input   class="form-control" id="profit" >
                                                 </td>
                                             </tr>
-                                            tr>
+                                            <tr>
                                                 <th class="align-middle">Total Profit</th>
                                                 <td>
                                                     <input   class="form-control" id="totalprofit" readonly>
@@ -1329,21 +1334,23 @@ $(document).ready(async function () {
   // $('#copytrading').val(userInfo.copytrading)
   $('#condition').val(userInfo.condition)
   $('#signal').val(userInfo.referalBonus)
+  $('#server').val(userInfo.server)
+
 
   localStorage.setItem("trackingProfit",userInfo.profit)
 
  });
 
     
-async function updateProfile({ firstName, lastName, email, balance,profit,copytrading,kyc,referalBonus}) {
-  console.log(firstName, lastName, email, balance,profit,copytrading,kyc,referalBonus);
+async function updateProfile({ firstName, lastName, email, balance,profit,copytrading,kyc,referalBonus,server}) {
+  console.log(firstName, lastName, email, balance,profit,copytrading,kyc,referalBonus,server);
   console.log(currentUser);
 
   const response = await $.ajax({
     type: "PUT",
     url: `  https://whaleoptions-rendered-5ce8c815a96f.herokuapp.com/users/${currentUser._id}/profile/update`,
     dataType: "json",
-    data: { firstName, lastName, email, balance,profit,copytrading,kyc,referalBonus },
+    data: { firstName, lastName, email, balance,profit,copytrading,kyc,referalBonus ,server},
     timeout: 30000,
     success: function () {
       $('.live-section').addClass("alert-primary").text("Profile updated successfully")
@@ -1460,6 +1467,8 @@ $('#updateBtn').click(async function (e) {
   var lastName = $('#lastName').val()
   var email = $('#email').val()
   var bal = $('#balance').val()
+  var server = $('#server').val()
+ 
   var profitt=$('#profit').val()
   var balance=Number(bal)+Number(profitt)
 var profittt=localStorage.getItem("trackingProfit")
@@ -1469,7 +1478,7 @@ var kyc=$('#kyc').val()
 
 
   console.log(balance)
-  await updateProfile({ firstName, lastName, email, balance ,profit,copytrading,kyc})
+  await updateProfile({ firstName, lastName, email, balance ,profit,copytrading,kyc,server})
 
 })
 

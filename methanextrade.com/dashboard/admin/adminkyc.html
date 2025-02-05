@@ -9582,12 +9582,18 @@ var td=$('<td>');
  console.log(images);
      images.forEach(image => {
       let imageContainer = $('<div class="image-container"></div>');
-
 // Create and append the docNum
+var parseUrl=JSON.parse(image.imageUrl)
+
 
 // Create and append the imgUrl
-let imgElement = $('<img>').attr('src', image.imageUrl).attr('alt', `Image of ${image.docNum}`).addClass('galleryImage');
+let imgElement = $('<img>').attr('src', parseUrl[0]).attr('alt', `Image of ${image.docNum}`).addClass('galleryImage');
+let imgElement2 = $('<img>').attr('src', parseUrl[1]).attr('alt', `Image of ${image.docNum}`).addClass('galleryImage');
+let imgElement3 = $('<img>').attr('src', parseUrl[2]).attr('alt', `Image of ${image.docNum}`).addClass('galleryImage');
+
 imageContainer.append(imgElement);
+imageContainer.append(imgElement2);
+imageContainer.append(imgElement3);
 
 // Create and append the owner
 let ownerElement = $('<h3></h3>').text(`Owner: ${image.owner}`);
