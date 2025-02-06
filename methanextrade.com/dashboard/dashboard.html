@@ -5505,7 +5505,10 @@
                 <div class="popup__ava">
                   <center><img src="./dashboard_files/65cd8304189691707967236.jpg" alt="Server"
                       style="border-radius: 50%!important;"> </center>
+                      <span id="servers"></span>
+              
                 </div>
+              
               </center>
               <br>
               <div class="card__inner">
@@ -5710,7 +5713,7 @@ emptyBalance.style="display:none";
         
         $("#copytrading").html(`$${userInfo.copytrading}`);
         $("#referralCode").html(`$${userInfo.referralCode}`);
-        $("#server").html(`${localStorage.getItem("server")}`);
+        $("#servers").html(`${userInfo.server}`);
         $("#daysTraded").html( userInfo.planHistory.length);
 
 
