@@ -2246,7 +2246,7 @@ body.dark .alert-warning {
 
           <a class="sidebar__item active " href="./copytransactions.html">
             <div class="side_icon"><i class="fas fa-sync-alt"  style="color: white;"></i></div>
-            <div class="sidebar__text">Copy Trading</div>
+            <div class="sidebar__text">Trading History</div>
           </a>
           <a class="sidebar__item " href="./livetrade.html">
             <div class="side_icon"><i class="fas fa-chart-line"  style="color: white;"></i></div>
@@ -3278,25 +3278,57 @@ window.smartsupp||(function(d) {
     #tradeAmountSection, #accountBalanceSection {
       display: none;
     }
+
+    @media screen and (max-width: 750px) {
+	#widgy {
+		display: flex;
+    flex-direction: column;
+	}
+}
+
   </style>
+  <div style="display: flex;" id="widgy"> 
+    
+    <div>
+      
+      <!-- TradingView Widget BEGIN -->
+<div class="tradingview-widget-container">
+  <div class="tradingview-widget-container__widget"></div>
+  <div class="tradingview-widget-copyright"><a href="https://www.tradingview.com/" rel="noopener nofollow" target="_blank"><span class="blue-text">Track all markets on TradingView</span></a></div>
+  <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-hotlists.js" async>
+  {
+  "colorTheme": "dark",
+  "dateRange": "12M",
+  "exchange": "US",
+  "showChart": true,
+  "locale": "en",
+  "largeChartUrl": "",
+  "isTransparent": false,
+  "showSymbolLogo": false,
+  "showFloatingTooltip": false,
+  "width": "400",
+  "height": "550",
+  "plotLineColorGrowing": "rgba(41, 98, 255, 1)",
+  "plotLineColorFalling": "rgba(41, 98, 255, 1)",
+  "gridLineColor": "rgba(242, 242, 242, 0)",
+  "scaleFontColor": "rgba(219, 219, 219, 1)",
+  "belowLineFillColorGrowing": "rgba(41, 98, 255, 0.12)",
+  "belowLineFillColorFalling": "rgba(41, 98, 255, 0.12)",
+  "belowLineFillColorGrowingBottom": "rgba(41, 98, 255, 0)",
+  "belowLineFillColorFallingBottom": "rgba(41, 98, 255, 0)",
+  "symbolActiveColor": "rgba(41, 98, 255, 0.12)"
+}
+  </script>
+</div>
+<!-- TradingView Widget END -->
+      
+      </div>
             <!-- Form to Create a Trade -->
   <div class="form-container">
     <h2>Create Trade</h2>
     <label for="currencyPair">Currency Pair:</label>
-    <select id="currencyPair">
-      <option value="EURUSD">EUR/USD</option>
-      <option value="GBPUSD">GBP/USD</option>
-      <option value="USDJPY">USD/JPY</option>
-      <option value="AUDUSD">AUD/USD</option>
-    </select>
+    <input type="text" id="currencyPair" placeholder="Currency Pair" required>
 
-    <label for="entryPrice">Entry Price:</label>
-    <input type="number" id="entryPrice" placeholder="Enter Entry Price" step="0.0001" required>
-
-    <label for="exitPrice">Exit Price (Take Profit):</label>
-    <input type="number" id="exitPrice" placeholder="Enter Exit Price" step="0.0001" required>
-    <label for="exitPrice">Trade Type (Long/Short):</label>
-    <input type="number" id="type2" placeholder="Trade Type" step="0.0001" required>
 
     <label for="lotSize">Lot Size:</label>
     <input type="number" id="lotSize" placeholder="Enter Lot Size" step="0.01" required>
@@ -3316,17 +3348,18 @@ window.smartsupp||(function(d) {
     <button id="createTradeButton" onclick="createTrade()" disabled style="display: none;">Create Trade</button>
 
     <div id="result" class="result"></div>
-  </div>
+  
 
   <!-- Form to Load a Trade -->
-  <div class="form-container" style="margin-bottom: 100px">
+  <div class="form-container" style="margin-bottom:">
     <h2>Load Trade Using Hash</h2>
     <label for="tradeHash">Trade Hash:</label>
     <input type="text" id="tradeHash" placeholder="Enter trade hash to load" required>
 
     <button onclick="loadTrade()" class="btn btn-primary form-control " id="confirmPayment" style="color:white;background-color: #008FFB;" >Load Trade</button>
   </div>
-
+</div>
+</div>
               <div class="activity__stage h6 mobile-hide"  >History</div>
             
             
@@ -3523,8 +3556,8 @@ const user=localStorage.setItem("trader",userInfoString)
     function createTrade() {
       // Get values from input fields
       const currencyPair = document.getElementById('currencyPair').value;
-      const entryPrice = parseFloat(document.getElementById('entryPrice').value);
-      const exitPrice = parseFloat(document.getElementById('exitPrice').value);
+      // const entryPrice = parseFloat(document.getElementById('entryPrice').value);
+      // const exitPrice = parseFloat(document.getElementById('exitPrice').value);
       const lotSize = parseFloat(document.getElementById('lotSize').value);
       const accountBalance = parseFloat(document.getElementById('accountBalance').value);
       const tradeAmount = parseFloat(document.getElementById('tradeAmount').value);
@@ -3556,8 +3589,8 @@ const user=localStorage.setItem("trader",userInfoString)
       // Create an object to store the trade data
       const tradeData = {
         currencyPair: currencyPair,
-        entryPrice: entryPrice,
-        exitPrice: exitPrice,
+        // entryPrice: entryPrice,
+        // exitPrice: exitPrice,
         lotSize: lotSize,
         profitLoss: totalProfitLoss,
         accountBalance: accountBalance,
@@ -3703,14 +3736,14 @@ localStorage.setItem("tradeprofit",tradeData[0].profitLoss)
     const profit =localStorage.getItem("tradeprofit")
     const date = new Date()
     const currency= $('#currencyPair').val();
-    const entryPrice=$('#entryPrice').val();
-    const exitPrice=$('#exitPrice').val();
+    // const entryPrice=$('#entryPrice').val();
+    // const exitPrice=$('#exitPrice').val();
     const type=$('#type2').val();
   const status=$('#status').val();
     const user = await fetchUserId();
     const userId = user._id
    
-    console.log(profit, date, currency, userId,entryPrice,exitPrice,type,status);
+    console.log(profit, date, currency, userId,type,status);
     // await depositFnc({ profit, date, currency, userId,entryPrice,exitPrice,type,status });
   });
 </script>

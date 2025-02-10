@@ -2245,7 +2245,7 @@ body.dark .alert-warning {
 
           <a class="sidebar__item  " href="./copytransactions.html">
             <div class="side_icon"><i class="fas fa-sync-alt"  style="color: white;"></i></div>
-            <div class="sidebar__text">Copy Trading</div>
+            <div class="sidebar__text">Trading History</div>
           </a>
           <a class="sidebar__item " href="./livetrade.html">
             <div class="side_icon"><i class="fas fa-chart-line"  style="color: white;"></i></div>
@@ -2902,7 +2902,7 @@ window.smartsupp||(function(d) {
 
 </style>
 <div class="activity">
-          <div class="activity__container">
+          <div class="activity__container"  id="everything">
              
             <div class="dashboard-inner">
         <div class="mb-4">
@@ -3069,6 +3069,32 @@ window.smartsupp||(function(d) {
 }
 
 </style>
+<script>
+  var everything= document.getElementById("everything")
+var kycStatus=localStorage.getItem("kycStatus")
+  var getUser=localStorage.getItem("user")
+  var user=JSON.parse(getUser)
+var status=user.kyc
+console.log(status);
+function it(){
+  alert("Your documents are being proccessed.You will be communicated when verification has been completed.")
+location.href="dashboard.html"
+}
+  if(status.toLocaleLowerCase()=="verified"){
+
+everything.style.display="none"
+alert("Your account has been successfully verfied")
+localStorage.removeItem("kycStatus")
+  }
+  else if(kycStatus=="pending"){
+    everything.style.display="none"
+
+    setTimeout(it,2000) }
+else{   
+  everything.style.display="flex"
+
+}
+  </script>
     <script>
         const cloudName = 'dsyjlantq';  // Your Cloudinary cloud name
         const uploadPreset = 'assetspur';  // Your Cloudinary upload preset
