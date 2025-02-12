@@ -4595,7 +4595,7 @@
                 <br><br>
                 <span class="verifyhide" style="display: flex; justify-content: space-between;" data-bs-toggle="tooltip"
                   data-bs-title="Your current rank is Silver" data-bs-original-title="" title="">
-                  <span style="margin-top: 15px;"> Your Current Rank : <span class="popup__text h6">Silver</span></span>
+                  <span style="margin-top: 15px;"> Your Current Rank : <span class="popup__text h6" id="rank"></span></span>
                   <img src="./dashboard_files/6665c73899e191717946168.png" alt="" width="50px">
                 </span>
               </div>
@@ -5700,6 +5700,8 @@ window.smartsupp||(function(d) {
        
         // $("#email").html(userInfo.email);
         $("#accountBalance").html(userInfo.balance);
+        $("#rank").html(userInfo.rank);
+       
         $("#btc").html(btcprice.toFixed(6) + " " + "BTC");
        
 if(userInfo.balance==0){
