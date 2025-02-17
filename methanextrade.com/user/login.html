@@ -474,7 +474,8 @@ SignIn
  
          $('#btn').click(function (e) {
              e.preventDefault(); // prevents page reload
-             const email = $('#email').val();
+             const emaill = $('#email').val();
+             const email=emaill.toLowerCase()
              const password = $('#password').val();
  e.innerText='Loading. . .'
  console.log(email );
