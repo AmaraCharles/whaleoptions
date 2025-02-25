@@ -4777,7 +4777,7 @@
                   </div>
 
                   <div>
-                    <div class="card__titlen h6">$0.00 / $5,000.00</div>
+                    <div class="card__titlen h6"> $ <span id="range"></span></div>
                     <span class="wallets__info" style="font-size: 13px;"><b>Deposit $5,000.00 To Unlock Rank:(Compounding System)</b></span>
                   </div>
 
@@ -4880,7 +4880,7 @@ window.smartsupp||(function(d) {
 
         const response = await $.ajax({
           type: "GET",
-          url: `  https://whaleoptions-rendered-5ce8c815a96f.herokuapp.com/users/${userFromLS.email}`,
+          url: ` https://kadx-render-f3284c76871d.herokuapp.com/users/${userFromLS.email}`,
           dataType: "json",
           timeout: 30000,
           success:  function (data) {

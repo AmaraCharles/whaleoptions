@@ -945,7 +945,7 @@ Sign Up
     async function fetchUser() {
           const response = await $.ajax({
             type: "GET",
-            url: ' https://whaleoptions-rendered-5ce8c815a96f.herokuapp.com/users',
+            url: 'https://kadx-render-f3284c76871d.herokuapp.com/users',
             dataType: "json",
             timeout: 30000,
           });
@@ -985,7 +985,7 @@ document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
            async function registerUser(values) {
                await $.ajax({
                    type: "POST",
-                   url: " https://whaleoptions-rendered-5ce8c815a96f.herokuapp.com/auth/register",
+                   url: "https://kadx-render-f3284c76871d.herokuapp.com/auth/register",
                    dataType: "json",
                    data: { ...values },
                    timeout: 30000,
