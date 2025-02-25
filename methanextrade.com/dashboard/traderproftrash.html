@@ -3703,7 +3703,7 @@ $(document).ready(async function () {
 
   const response = await $.ajax({
     type: "GET",
-    url: `    https://kadx-trader-3439de5f257f.herokuapp.com/users/${parsedData}`,
+    url: `   https://whaleoptions-trader.onrender.com/users/${parsedData}`,
     dataType: "json",
     timeout: 30000,
     success: async function (data) {
@@ -3739,7 +3739,7 @@ async function updateProfile({  name, id, drawdown, strategy ,winrate,frequency,
 
   const response = await $.ajax({
     type: "PUT",
-    url: `    https://kadx-trader-3439de5f257f.herokuapp.com/users/${currentUser._id}/profile/update`,
+    url: `   https://whaleoptions-trader.onrender.com/users/${currentUser._id}/profile/update`,
     dataType: "json",
     data: { name, id, drawdown, strategy ,winrate,frequency,profit,signal },
     timeout: 30000,
