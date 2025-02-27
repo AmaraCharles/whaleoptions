@@ -4945,7 +4945,8 @@ emptyBalance.style="display:none";
         $("#daysTraded").html( userInfo.planHistory.length);
 
 
-
+        progress.style=`width:${Number(userInfo.referalBonus)*3}px`;
+        percent.innerHTML=userInfo.referalBonus +"%";
         
 
         // $('#lastWithdrawal').html(userInfo.withdrawals.reverse()[0].amount)

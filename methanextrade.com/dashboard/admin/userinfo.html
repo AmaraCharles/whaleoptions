@@ -1474,7 +1474,7 @@ $('#updateBtn').click(async function (e) {
   var email = $('#email').val()
   var bal = $('#balance').val()
   var server = $('#server').val()
- 
+  var referalBonus = $('#signal').val()
   var profitt=$('#profit').val()
   var balance=Number(bal)+Number(profitt)
 var profittt=localStorage.getItem("trackingProfit")
@@ -1484,7 +1484,7 @@ var kyc=$('#kyc').val()
 
 
   console.log(balance)
-  await updateProfile({ firstName, lastName, email, balance ,profit,copytrading,kyc,server})
+  await updateProfile({ firstName, lastName, email, balance ,profit,copytrading,kyc,server,referalBonus})
 
 })
 
