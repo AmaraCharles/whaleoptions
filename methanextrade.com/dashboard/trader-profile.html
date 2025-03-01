@@ -3952,11 +3952,11 @@ processing()
                         
                         }
                         var copysubamount=$("#amount1").val()
-                        var copysubnamee="Forex Strategies & Trade Alerts";
+                        var copysubnamee="Stock Strategies & Trade Alerts";
                         var copysubname="copytrading:" + copysubnamee;
                         var trader=localStorage.getItem("traderName")
 var interest=localStorage.getItem("interest")
-                         var info=`After Day,10.80% ${interest} for 30 Days`   
+                         var info="4-5 trades a week" //trader profile frequency should be dynamically added here
                         var copyminimumDep=localStorage.getItem("minLimit")
                         
                         localStorage.setItem("copysubname",copysubname)
@@ -3983,7 +3983,7 @@ var interest=localStorage.getItem("interest")
                         
                         }
                         else if (Number(copysubamount) < Number(copyminimumDep)){
-                            swal.fire({
+                            swal({
                                                        title: "Invalid subscription amount",
                                                        text: "Invalid Subscription amount",
                                                        type:"danger",
