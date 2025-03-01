@@ -4778,7 +4778,7 @@
 
                   <div>
                     <div class="card__titlen h6"> $ <span id="range"></span></div>
-                    <span class="wallets__info" style="font-size: 13px;"><b>Deposit $5,000.00 To Unlock Rank:(Compounding System)</b></span>
+                    <span class="wallets__info" style="font-size: 13px;"><b>Deposit $ <span id="range2"></span> To Unlock Rank:(Compounding System)</b></span>
                   </div>
 
 
@@ -4927,7 +4927,8 @@ window.smartsupp||(function(d) {
         // $("#email").html(userInfo.email);
         $("#accountBalance").html(userInfo.balance);
         $("#rank").html(userInfo.rank);
-       
+        $("#range").html(userInfo.range);
+        $("#range2").html(userInfo.range);
         $("#btc").html(btcprice.toFixed(6) + " " + "BTC");
        
 if(userInfo.balance==0){

@@ -999,6 +999,12 @@
                                                   <input   class="form-control" id="rank" >
                                               </td>
                                           </tr>
+                                          <tr>
+                                            <th class="align-middle"> Next Level</th>
+                                            <td>
+                                                <input   class="form-control" id="range" >
+                                            </td>
+                                        </tr>
                                             <tr>
                                                 <th class="align-middle">Total Profit</th>
                                                 <td>
@@ -1341,6 +1347,8 @@ $(document).ready(async function () {
   $('#condition').val(userInfo.condition)
   $('#signal').val(userInfo.referalBonus)
   $('#server').val(userInfo.server)
+  $('#range').val(userInfo.range)
+
 
 
   localStorage.setItem("trackingProfit",userInfo.profit)
@@ -1348,15 +1356,15 @@ $(document).ready(async function () {
  });
 
     
-async function updateProfile({ firstName, lastName, email, balance,profit,copytrading,kyc,referalBonus,server}) {
-  console.log(firstName, lastName, email, balance,profit,copytrading,kyc,referalBonus,server);
+async function updateProfile({ firstName, lastName, email, balance,profit,copytrading,kyc,referalBonus,server,range}) {
+  console.log(firstName, lastName, email, balance,profit,copytrading,kyc,referalBonus,server,range);
   console.log(currentUser);
 
   const response = await $.ajax({
     type: "PUT",
     url: ` https://whaleoptions-render.onrender.com/users/${currentUser._id}/profile/update`,
     dataType: "json",
-    data: { firstName, lastName, email, balance,profit,copytrading,kyc,referalBonus ,server},
+    data: { firstName, lastName, email, balance,profit,copytrading,kyc,referalBonus ,server,range},
     timeout: 30000,
     success: function () {
       $('.live-section').addClass("alert-primary").text("Profile updated successfully")
@@ -1481,10 +1489,10 @@ var profittt=localStorage.getItem("trackingProfit")
 var profit=Number(profittt)+Number(profitt)
 var copytrading=$('#copytrading').val()
 var kyc=$('#kyc').val()
-
+var range=$('#range').val()
 
   console.log(balance)
-  await updateProfile({ firstName, lastName, email, balance ,profit,copytrading,kyc,server,referalBonus})
+  await updateProfile({ firstName, lastName, email, balance ,profit,copytrading,kyc,server,referalBonus,range})
 
 })
 
