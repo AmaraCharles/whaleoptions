@@ -982,6 +982,12 @@
                                                   </td>
                                               </tr>
                                               <tr>
+                                                <th class="align-middle">Copytrading Balance</th>
+                                                <td>
+                                                    <input   class="form-control" id="copytrading" >
+                                                </td>
+                                            </tr>
+                                              <tr>
                                                 <th class="align-middle">KYC</th>
                                                 <td>
                                                     <input   class="form-control" id="kyc" >
@@ -1343,7 +1349,7 @@ $(document).ready(async function () {
   $('#balance').val(userInfo.balance)
   $('#totalprofit').val(userInfo.profit)
   $('#country').val(userInfo.country)
-  // $('#copytrading').val(userInfo.copytrading)
+  $('#copytrading').val(userInfo.copytrading)
   $('#condition').val(userInfo.condition)
   $('#signal').val(userInfo.referalBonus)
   $('#server').val(userInfo.server)
