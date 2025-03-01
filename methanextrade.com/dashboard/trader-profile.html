@@ -3973,7 +3973,7 @@ var interest=localStorage.getItem("interest")
                         var timestamp=new Date()
                         var balance=user.balance;
                         if (Number(copysubamount) >Number( balance)){
-                            swal.fire({
+                            swal({
                                                        title: "Insufficient Balance",
                                                        text: "You do not have enough balance for this plan.Please top up balance and try again.",
                                                        type:"danger",
