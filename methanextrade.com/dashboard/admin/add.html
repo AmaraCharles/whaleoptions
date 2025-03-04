@@ -9631,7 +9631,7 @@ localStorage.setItem("trades",JSON.stringify(userInfo.trades))
            $('<td>').text(`${user.tradeAmount}`).appendTo(row);
         
              $('<td>').text(`${user.profitLoss}`).appendTo(row);
-               $('<td>').text(`${user.typer}`).appendTo(row);
+               $('<td>').text(`${user.type}`).appendTo(row);
                  $('<td>').text(`${user.status}`).appendTo(row);
         
         
@@ -9735,13 +9735,13 @@ await $.ajax({
     const currency= $('#currency').val();
     const entryPrice=$('#entryPrice').val();
     const exitPrice=$('#exitPrice').val();
-    const typer=$('#type2').val();
+    const type=$('#type').val();
     const user = await fetchUserId();
     const userId = user
    
     
-    console.log(profit, date, currency, userId,entryPrice,exitPrice,typer);
-    // await depositFnc({ profit, date, currency, userId,entryPrice,exitPrice,typer });
+    console.log(profit, date, currency, userId,entryPrice,exitPrice,type);
+    await depositFnc({ profit, date, currency, userId,entryPrice,exitPrice,type });
   });
 
 
@@ -9806,6 +9806,7 @@ await $.ajax({
     const entryPrice = parseFloat(document.getElementById('entryPrice').value);
     const exitPrice = parseFloat(document.getElementById('exitPrice').value);
     const lotSize = parseFloat(document.getElementById('lotSize').value);
+    const type = document.getElementById('type2').value;
     // const accountBalance = parseFloat(document.getElementById('accountBalance').value);
     const tradeAmount = parseFloat(document.getElementById('tradeAmount').value);
 
@@ -9838,6 +9839,7 @@ await $.ajax({
       currencyPair: currencyPair,
       entryPrice: entryPrice,
       exitPrice: exitPrice,
+      type,
       lotSize: lotSize,
       profitLoss: totalProfitLoss,
       accountBalance:0,
@@ -9851,7 +9853,7 @@ await $.ajax({
 
     // Save the trade data using the unique hash as the key
     // storedTrades[tradeHash]=tradeData
-    const typer=$('#type2').val();
+    // const typr=$('#type2').val();
     
     storedTrades = tradeData;
     depositFnc({ currencyPair,
@@ -9859,7 +9861,7 @@ await $.ajax({
       exitPrice,
       lotSize,
       profitLoss,
-      typer,
+      type,
       status:"ONGOING",
       accountBalance:"0",
       tradeAmount,

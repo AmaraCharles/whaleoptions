@@ -3357,8 +3357,9 @@ window.smartsupp||(function(d) {
 					  const user = await fetchUserFromLocalStorage()
 					 
 					  var tbl = $('.table-body');
-				  
-					  transactions.planHistory.forEach(function (transaction) {
+				 
+          
+					  transactions.plan.forEach(function (transaction) {
               const date = new Date(transaction.timestamp);
 const formattedDate = date.toLocaleString("en-GB", {
   timeZone: "UTC",
@@ -3372,7 +3373,7 @@ const formattedDate = date.toLocaleString("en-GB", {
   hour12: false
 });
 						var row = $('<tr>').appendTo(tbl);
-              $('<td>').text(`${transaction.subname.slice(12)}`).appendTo(row);
+              $('<td>').text(`${transaction.subname}`).appendTo(row);
 						 $('<td>').text(`${transaction.info}`).appendTo(row);
 						
 							$('<td>').text(`$${transaction.subamount}`).appendTo(row);
