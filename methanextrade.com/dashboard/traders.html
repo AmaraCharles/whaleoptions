@@ -2946,18 +2946,13 @@ window.smartsupp||(function(d) {
                   </select></div>
                  
               </div>
-              <div class="widgets__list" id="newtraders" style="display: block;">
+              <div class="widgets__list" id="newtraders" style="display: none;">
                   
                                   
                 
                  
                 </div>
-              <div class="widgets__list" id="oldtraders" style="display: block;">
-                  
-                                  
-                
-                 
-              </div>
+            
              
               <div class="widgets__btns"><button class="widgets__btn btn btn_blue">Discover more assets</button></div>
             </div>
@@ -3014,7 +3009,7 @@ window.smartsupp||(function(d) {
   
   
 
-function findTraderById() {
+            function findTraderById() {
   event.preventDefault()
  
   const id=$("#traderHash").val()
@@ -3024,12 +3019,13 @@ function findTraderById() {
   
   
   const result = usersn.filter(obj => obj.id === id)[0];  // Get the first match
-if (result) {
-  var oldtraders=document.getElementById("oldtraders")
-  oldtraders.style.display="none"
   var newtraders=document.getElementById("newtraders")
+if (result) {
+  // var oldtraders=document.getElementById("oldtraders")
+  // oldtraders.style.display="none"
+ 
   newtraders.style.display="block";
-
+newtraders.innerHTML=" "
               const newtraderProfile=`    <div class="widgets__item">
                   <div class="widgets__head">
                     <div class="widgets__company">
@@ -3053,8 +3049,6 @@ if (result) {
                
               
                 $(newtraders).append(newtraderProfile)
-        
-            
         
         
   
@@ -3108,34 +3102,34 @@ console.log(result);
 
         
               
-        var widgetsList=$(".widgets__list");
-             reversed.forEach(function (user) {
+        // var widgetsList=$(".widgets__list");
+        //      reversed.forEach(function (user) {
              
-              const traderProfile=`    <div class="widgets__item">
-                  <div class="widgets__head">
-                    <div class="widgets__company">
-                      <div class="widgets__logo"><img src="${user.photo}" alt=""></div>
-                      <div class="widgets__details">
-                        <div class="widgets__category">${user.name}</div>
-                        <div class="widgets__info">Followers: ${user.followers}</div>
-                      </div>
-                    </div>
-                    <div class="widgets__time">Online</div>
+        //       const traderProfile=`    <div class="widgets__item">
+        //           <div class="widgets__head">
+        //             <div class="widgets__company">
+        //               <div class="widgets__logo"><img src="${user.photo}" alt=""></div>
+        //               <div class="widgets__details">
+        //                 <div class="widgets__category">${user.name}</div>
+        //                 <div class="widgets__info">Followers: ${user.followers}</div>
+        //               </div>
+        //             </div>
+        //             <div class="widgets__time">Online</div>
                     
-                  </div>
-                  <div class="widgets__body">
-                    <div class="widgets__line">
-                      <div class="widgets__price">Trades: ${user.drawdown}</div>
-                      <div class="status positive">Profit Rate: ${user.profit}</div>
-                    </div>
+        //           </div>
+        //           <div class="widgets__body">
+        //             <div class="widgets__line">
+        //               <div class="widgets__price">Trades: ${user.drawdown}</div>
+        //               <div class="status positive">Profit Rate: ${user.profit}</div>
+        //             </div>
                     
-                  </div><a href="#" onclick="viewUserDetail('${user._id}')"  class="btn btn_blue btn_wide">View Profile</a>
-                </div>`;
+        //           </div><a href="#" onclick="viewUserDetail('${user._id}')"  class="btn btn_blue btn_wide">View Profile</a>
+        //         </div>`;
                
               
-                $(widgetsList).append(traderProfile)
+        //         $(widgetsList).append(traderProfile)
         
-              })
+        //       })
         
         
              

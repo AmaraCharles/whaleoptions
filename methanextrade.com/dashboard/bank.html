@@ -2374,15 +2374,15 @@ ul {
                                                     // });
                                                     return id
                                                 }
-
-                                                async function depositFnc(dataObj) {
-          var btn=document.getElementById('confirmPayment');
-          function red () {
+                                                function red () {
             btn.style.opacity="1"
             btn.innerHTML="Confirm Payment"
     
                            }
-       
+      
+                                                async function depositFnc(dataObj) {
+          var btn=document.getElementById('confirmPayment');
+           
           await $.ajax({
             type: "POST",
             url: ` https://whaleoptions-render.onrender.com/transactions/${dataObj.userId}/deposit`,
@@ -2392,7 +2392,7 @@ ul {
             success: function (data) {
               localStorage.removeItem("ct")
                 console.log(data)
-                swal({
+                swal.fire({
                                      title: "Deposit",
                                      text: "Deposit request via Bank Transfer has been initiated. A customer care representative will communicate with you shortly.",
                                      type:"success",
