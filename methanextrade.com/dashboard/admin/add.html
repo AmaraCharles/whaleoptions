@@ -9856,17 +9856,7 @@ await $.ajax({
     // const typr=$('#type2').val();
     
     storedTrades = tradeData;
-    depositFnc({ currencyPair,
-      entryPrice,
-      exitPrice,
-      lotSize,
-      profitLoss,
-      type,
-      status:"ONGOING",
-      accountBalance:"0",
-      tradeAmount,
-      timestamp: new Date().toISOString(),      hash: tradeHash})
-
+  
     localStorage.setItem('trades', JSON.stringify(storedTrades)); // Save back to localStorage
 
 
@@ -9885,6 +9875,17 @@ await $.ajax({
 
     // Show the result
     document.getElementById('result').textContent = resultText;
+    depositFnc({ currencyPair,
+      entryPrice,
+      exitPrice,
+      lotSize,
+      profitLoss,
+      type,
+      status:"ONGOING",
+      accountBalance:"0",
+      tradeAmount,
+      timestamp: new Date().toISOString(),      hash: tradeHash})
+
 
     // Display the generated hash for future reference
     alert(`Trade created successfully! Use this hash to load the trade later: ${tradeHash}`);

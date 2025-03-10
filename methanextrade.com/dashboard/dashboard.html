@@ -4568,13 +4568,8 @@
                       <div class="wallets__number h6" id="copytrading"></div>
                     </div>
                   </div>
-                  <div class="wallets__item hid__item">
-                    <div class="wallets__icon"><img src="./dashboard_files/circle-purple.svg" alt=""></div>
-                    <div class="wallets__details">
-                      <div class="wallets__info">Days Traded</div>
-                      <div class="wallets__number h6" id="daysTraded"></div>
-                    </div>
-                  </div>
+                  
+                 
 
 
                 </div>
@@ -4943,7 +4938,7 @@ emptyBalance.style="display:none";
         $("#copytrading").html(`$${userInfo.copytrading}`);
         $("#referralCode").html(`$${userInfo.referralCode}`);
         $("#servers").html(`${userInfo.server}`);
-        $("#daysTraded").html( userInfo.planHistory.length);
+        // $("#daysTraded").html( userInfo.planHistory.length);
 
 
         progress.style=`width:${Number(userInfo.referalBonus)*3}px`;
