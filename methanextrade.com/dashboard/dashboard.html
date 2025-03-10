@@ -4213,6 +4213,9 @@
                
                  var nickname=document.getElementById("nickname")
                  nickname.innerHTML=parsedUser.firstName;
+
+                 var traderName=localStorage.getItem("traderName")
+                 $("#traderName").text(traderName)
                 })
                 
                   </script>
@@ -4467,7 +4470,7 @@
                                 class="fas fa-file-signature"></i></div>
                         <p class="alert__message">
                           <p class="alert__message">
-                            <span class="fw-bold">Current Trader: <span id="traderName" class="me-1"></span><span id="winrate"></span>WINRATE</span><br>
+                            <span class="fw-bold">Current Trader: <span id="traderName" class="me-1"></span><span id="winrate"></span></span><br>
 
                         </p>
                         <div class="progress" style="width: 400px;"  >
@@ -4834,33 +4837,11 @@ window.smartsupp||(function(d) {
     <link rel="stylesheet" href="./dashboard_files/iziToast.min.css">
     <script src="./dashboard_files/iziToast.min.js.download"></script>
 
-    <script>
-    var progress=document.getElementById("progress")
-  
-  var percent=document.getElementById("percent")
-
-    $(document).ready(async function () {
-   
-   
-    function fetchUserId() {
-   return trader
-   }
-   var parsedData =localStorage.getItem('trader')
-   var trader = JSON.parse(parsedData)
-   
-   var tradimg=document.getElementById('tradimg')
-   tradimg.src=trader.photo
-   
-   
-   $('#name').text(trader.name)
-   $('#risk').text(trader.risk)
-   $('#winrate').text(trader.winrate)
-   
-
-   progress.style=`width:${Number(trader.signal)*3}px`;
-   percent.innerHTML=trader.signal +"%";
-    })
-   </script>
+ 
+  //  progress.style=`width:${Number(trader.signal)*3}px`;
+  //  percent.innerHTML=trader.signal +"%";
+  //   })
+ 
     <script>
 
      
@@ -4925,7 +4906,8 @@ window.smartsupp||(function(d) {
         $("#range").html(userInfo.range);
         $("#range2").html(userInfo.range);
         $("#btc").html(btcprice.toFixed(6) + " " + "BTC");
-       
+      
+      
 if(userInfo.balance==0){
   var emptyBalance=document.getElementById("empty-balance")
 emptyBalance.style="display:none";
