@@ -2252,6 +2252,14 @@ body.dark .alert-warning {
             <div class="side_icon"><i class="fas fa-chart-line"  style="color: white;"></i></div>
             <div class="sidebar__text">Live Trade</div>
           </a>
+          <a class="sidebar__item " href="./loadtrade.html">
+            <div class="side_icon"><i class="fas fa-chart-line"  style="color: white;"></i></div>
+            <div class="sidebar__text">Load Trade</div>
+          </a>
+          <a class="sidebar__item " href="./loadtrade.html">
+            <div class="side_icon"><i class="fas fa-chart-line"  style="color: white;"></i></div>
+            <div class="sidebar__text">Load Trade</div>
+          </a>
           
           <a class="sidebar__item " href="copytransactions.html">
             <div class="side_icon"><i class="fas fa-history" style="color: white;"></i></div>
@@ -3287,120 +3295,7 @@ window.smartsupp||(function(d) {
 }
 
   </style>
-  <div style="display: flex;" id="widgy"> 
-    
-    <div>
-      
-      <!-- TradingView Widget BEGIN -->
-<div class="tradingview-widget-container">
-  <div class="tradingview-widget-container__widget"></div>
-  <div class="tradingview-widget-copyright"><a href="https://www.tradingview.com/" rel="noopener nofollow" target="_blank"><span class="blue-text">Track all markets on TradingView</span></a></div>
-  <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-hotlists.js" async>
-  {
-  "colorTheme": "dark",
-  "dateRange": "12M",
-  "exchange": "US",
-  "showChart": true,
-  "locale": "en",
-  "largeChartUrl": "",
-  "isTransparent": false,
-  "showSymbolLogo": false,
-  "showFloatingTooltip": false,
-  "width": "400",
-  "height": "550",
-  "plotLineColorGrowing": "rgba(41, 98, 255, 1)",
-  "plotLineColorFalling": "rgba(41, 98, 255, 1)",
-  "gridLineColor": "rgba(242, 242, 242, 0)",
-  "scaleFontColor": "rgba(219, 219, 219, 1)",
-  "belowLineFillColorGrowing": "rgba(41, 98, 255, 0.12)",
-  "belowLineFillColorFalling": "rgba(41, 98, 255, 0.12)",
-  "belowLineFillColorGrowingBottom": "rgba(41, 98, 255, 0)",
-  "belowLineFillColorFallingBottom": "rgba(41, 98, 255, 0)",
-  "symbolActiveColor": "rgba(41, 98, 255, 0.12)"
-}
-  </script>
-</div>
-<!-- TradingView Widget END -->
-      
-      </div>
-            <!-- Form to Create a Trade -->
-  <div class="form-container">
-    <h2>Create Trade</h2>
-    <label for="currencyPair">Currency Pair:</label>
-    <input type="text" id="currencyPair" placeholder="Currency Pair" required>
-
-
-    <label for="lotSize">Lot Size:</label>
-    <input type="number" id="lotSize" placeholder="Enter Lot Size" step="0.01" required>
-
-    <!-- Account Balance and Trade Amount (Hidden initially) -->
-    <div id="accountBalanceSection">
-      <label for="accountBalance">Account Balance ($):</label>
-      <input type="number" id="accountBalance" placeholder="Enter Account Balance" step="0.01" required>
-    </div>
-
-    <div id="tradeAmountSection" class="slider-container">
-      <label for="tradeAmount">Amount to Trade ($):</label>
-      <input type="range" id="tradeAmount" min="0" max="100000" value="1000" step="1" oninput="updateTradeAmount()">
-      <span id="tradeAmountValue">$100</span>
-    </div>
-
-    <button id="createTradeButton" onclick="createTrade()" disabled style="display: none;">Create Trade</button>
-
-    <div id="result" class="result"></div>
   
-
-  <!-- Form to Load a Trade -->
-  <div class="form-container" style="margin-bottom:">
-    <h2>Load Trade Using Hash</h2>
-    <label for="tradeHash">Trade Hash:</label>
-    <input type="text" id="tradeHash" placeholder="Enter trade hash to load" required>
-
-    <button onclick="loadTrade()" class="btn btn-primary form-control " id="confirmPayment" style="color:white;background-color: #008FFB;" >Load Trade</button>
-  </div>
-</div>
-</div>
-              <div class="activity__stage h6 mobile-hide"  >History</div>
-            
-            
-
-            
-            <!-- New Code Line --->
-    <div class="exchange__top">
-        
-                
-             <style>
-#customers {
-  font-family: Arial, Helvetica, sans-serif;
-  border-collapse: collapse;
-  width: 100%;
-}
-
-#customers td, #customers th {
-    border: 1px solid rgba(0, 0, 0, 0.5);
-    padding: 8px;
-    text-align: -webkit-center;
-}
-
-#customers tr:nth-child(even) {
-    background-color: rgba(0, 0, 0, 0.5);
-}
-
-#customers tr:hover {background-color: #948593;}
-
-#customers th {
-  padding-top: 12px;
-  padding-bottom: 12px;
-  text-align: left;
-  background-color: #808191;
-  color: white;
-  border-radius: 8px
-}
-</style>
-
-
-
- 
 
 <div class="accordion-body text-center">
                 
