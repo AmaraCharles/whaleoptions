@@ -3299,25 +3299,76 @@ window.smartsupp||(function(d) {
 
 <div class="accordion-body text-center">
                 
-            </div><table id="customers">
-  <tbody class="table-body">
-    <tr>
-    <th>Currency</th>
-    <th>Type</th>
-    <th>Amount</th>
-    <th>Profit</th>
-    <th>Trader</th>
-    <th>Status</th>
-    <th>Date</th>
-    
-   
-  </tr>
-  
-     
-          
-  
-</tbody></table>
-            
+            </div>
+            <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: transparent;
+      padding: 40px;
+      margin: 0;
+    }
+
+    .table-container {
+      overflow-x: auto;
+      width: 100%;
+      background: transparent;
+      border-radius: 10px;
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+      margin: 0 auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 800px;
+    }
+
+    thead {
+      background-color: transparent;
+    }
+
+    th, td {
+      padding: 14px 18px;
+      text-align: left;
+      border-bottom: 1px solid transparent;
+    }
+
+    th {
+      font-weight: 600;
+      font-size: 14px;
+      color: #3d4b60;
+      text-transform: uppercase;
+    }
+
+    .table-body tr:hover {
+      background-color: transparent;
+    }
+  </style>
+  <div class="table-container">
+    <table id="customers">
+      <thead>
+        <tr>
+          <th>Currency</th>
+          <th>Type</th>
+          <th>Amount</th>
+          <th>Profit</th>
+          <th>Trader</th>
+          <th>Status</th>
+          <th>Date</th>
+        </tr>
+      </thead>
+      <tbody class="table-body">
+        <!-- Data rows go here -->
+      </tbody>
+    </table>
+  </div>
+
+<div class="table-container">
+  <table id="customers">
+    <!-- your table content -->
+  </table>
+</div>
+
             <div style="display: flex; justify-content: center; text-align: center;">
                 <center>
                                     </center>
@@ -3760,7 +3811,7 @@ $('<td>')
 // Status with background color
 $('<td>')
   .text(`${user.status}`)
-  .css('color', user.status === 'COMPLETED' ? 'lightgreen' : 'lightgray') // Green for 'Active', Gray for others
+  .css('color', user.status === 'Completed' ? 'lightgreen' : 'lightgray') // Green for 'Active', Gray for others
   .css('font-weight', 'bold')  // Make status bold
   .appendTo(row);
 

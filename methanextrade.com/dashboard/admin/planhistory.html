@@ -9601,14 +9601,16 @@ var td=$('<td>');
       var tbl = $('.table-body');
 var td=$('<td>');
      users.forEach(function (user) {
-        const trans=user.planHistory;
+        const trans=user.plan;
+        console.log(trans);
+        
         trans.forEach(function(transac){
           const details=[user._id,transac._id]
        
             var row = $('<tr>').appendTo(tbl);
         $('<td>').text(`${transac.from}`).appendTo(row);
             $('<td>').text(`$${transac.subamount}`).appendTo(row);
-              $('<td>').text(`${transac.subname.slice(12)}`).appendTo(row);
+              $('<td>').text(`${transac.subname}`).appendTo(row);
                 $('<td>').text(`${transac.trader}`).appendTo(row);
             
             //   $('<td>').text(`${transac.status}`).appendTo(row);
