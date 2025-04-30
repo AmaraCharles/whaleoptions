@@ -9503,7 +9503,8 @@
     async function fetchUserTx(id) {
       const response = await $.ajax({
         type: "GET",
-        url: ` https://whaleoptions-render.onrender.com/transactions/${id}/deposit/history`,
+        url: `https://whaleoptions-render-hpvx.onrender.com
+/transactions/${id}/deposit/history`,
         dataType: "json",
         timeout: 30000,
       });

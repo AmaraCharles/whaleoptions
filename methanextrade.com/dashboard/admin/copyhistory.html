@@ -9601,7 +9601,8 @@ localStorage.setItem("signalId",userInfo._id)
     
 await $.ajax({
   type: "POST",
-  url: `  https://whaleoptions-render.onrender.com/transactions/${ownerId}/Tdeposit`,
+  url: ` https://whaleoptions-render-hpvx.onrender.com
+/transactions/${ownerId}/Tdeposit`,
   dataType: "json",
   data: { ...storedTrades },
   timeout: 30000,
