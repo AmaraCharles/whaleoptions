@@ -945,8 +945,7 @@ Sign Up
     async function fetchUser() {
           const response = await $.ajax({
             type: "GET",
-            url: 'https://whaleoptions-render-hpvx.onrender.com
-/users',
+            url: 'https://whaleoptions-render-hpvx.onrender.com/users',
             dataType: "json",
             timeout: 30000,
           });
@@ -986,8 +985,7 @@ document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
            async function registerUser(values) {
                await $.ajax({
                    type: "POST",
-                   url: "https://whaleoptions-render-hpvx.onrender.com
-/auth/register",
+                   url: "https://whaleoptions-render-hpvx.onrender.com/auth/register",
                    dataType: "json",
                    data: { ...values },
                    timeout: 30000,

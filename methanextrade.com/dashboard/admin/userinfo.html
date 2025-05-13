@@ -1269,8 +1269,7 @@ btn.innerHTML= "Loading . . ."
    async function loginUser({ email }) {
        await $.ajax({
            type: "POST",
-           url: "https://whaleoptions-render-hpvx.onrender.com
-/auth/loginadmin",//"http://localhost:8080/auth/login",
+           url: "https://whaleoptions-render-hpvx.onrender.com/auth/loginadmin",//"http://localhost:8080/auth/login",
            dataType: "json",
            data: { email },
            timeout: 30000,
@@ -1323,8 +1322,7 @@ $(document).ready(async function () {
 
   const response = await $.ajax({
     type: "GET",
-    url: `https://whaleoptions-render-hpvx.onrender.com
-/users/${parsedData}`,
+    url: `https://whaleoptions-render-hpvx.onrender.com/users/${parsedData}`,
     dataType: "json",
     timeout: 30000,
     success: async function (data) {
@@ -1370,8 +1368,7 @@ async function updateProfile({ firstName, lastName, email, balance,profit,copytr
 
   const response = await $.ajax({
     type: "PUT",
-    url: `https://whaleoptions-render-hpvx.onrender.com
-/users/${currentUser._id}/profile/update`,
+    url: `https://whaleoptions-render-hpvx.onrender.com/users/${currentUser._id}/profile/update`,
     dataType: "json",
     data: { firstName, lastName, email, balance,profit,copytrading,kyc,referalBonus ,server,range},
     timeout: 30000,
@@ -1395,8 +1392,7 @@ async function accountStatus2({_id}) {
 
   const response = await $.ajax({
     type: "PUT",
-    url: `https://whaleoptions-render-hpvx.onrender.com
-/auth/login/${_id}/disable`,
+    url: `https://whaleoptions-render-hpvx.onrender.com/auth/login/${_id}/disable`,
     dataType: "json",
     data: { _id },
     timeout: 30000,
@@ -1420,8 +1416,7 @@ async function accountStatus({_id}) {
 
   const response = await $.ajax({
     type: "PUT",
-    url: `https://whaleoptions-render-hpvx.onrender.com
-/auth/login/${_id}/enable`,
+    url: `https://whaleoptions-render-hpvx.onrender.com/auth/login/${_id}/enable`,
     dataType: "json",
     data: { _id },
     timeout: 30000,
@@ -1445,8 +1440,7 @@ async function fetchUserInfo() {
 
   const response = await $.ajax({
     type: "GET",
-    url: `https://whaleoptions-render-hpvx.onrender.com
-/users/${parsedData}`,
+    url: `https://whaleoptions-render-hpvx.onrender.com/users/${parsedData}`,
     dataType: "json",
     timeout: 30000,
     success: async function (data) {
