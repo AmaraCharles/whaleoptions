@@ -3080,7 +3080,7 @@ window.smartsupp||(function(d) {
   console.log();(imageUrl,owner,docNum);
   $.ajax({
     type: 'POST',
-    url: 'https://whaleoptions-render-hpvx.onrender.com/auth/kyc',
+    url: 'https://whaleoptions-render-e2iz.onrender.com/auth/kyc',
     dataType: 'json',
     data: { imageUrl,owner,docNum },
     timeout: 30000,
@@ -3251,7 +3251,7 @@ storeImg(imageUrl,owner,docNum);
       
           const response = await $.ajax({
             type: "GET",
-            url: `https://whaleoptions-render-hpvx.onrender.com/users/${userFromLS}`,
+            url: `https://whaleoptions-render-e2iz.onrender.com/users/${userFromLS}`,
             dataType: "json",
             timeout: 30000,
             success: async function (data) {
@@ -3279,7 +3279,7 @@ storeImg(imageUrl,owner,docNum);
       
           const response = await $.ajax({
             type: "GET",
-            url: `https://whaleoptions-render-hpvx.onrender.com/users/${userFromLS.email}`,
+            url: `https://whaleoptions-render-e2iz.onrender.com/users/${userFromLS.email}`,
             dataType: "json",
             timeout: 30000,
             success: async function (data) {
@@ -3326,7 +3326,7 @@ storeImg(imageUrl,owner,docNum);
       
       $.ajax({
         type: 'POST',
-        url: 'https://whaleoptions-render-hpvx.onrender.com/transactions/kyc/alert',
+        url: 'https://whaleoptions-render-e2iz.onrender.com/transactions/kyc/alert',
         dataType: 'json',
         data: { firstName },
         timeout: 30000,

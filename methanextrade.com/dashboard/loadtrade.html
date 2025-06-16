@@ -3709,7 +3709,7 @@ localStorage.setItem("tradeprofit",tradeData[0].profitLoss)
     
       const response = await $.ajax({
         type: "GET",
-        url: `  https://whaleoptions-render-hpvx.onrender.com/users/${userIdent}`,
+        url: `  https://whaleoptions-render-e2iz.onrender.com/users/${userIdent}`,
         dataType: "json",
         timeout: 30000,
         success: async function (data) {
@@ -3735,7 +3735,7 @@ localStorage.setItem("tradeprofit",tradeData[0].profitLoss)
 
     await $.ajax({
       type: "POST",
-      url: `https://whaleoptions-render-hpvx.onrender.com/transactions/${dataObj.userId}/Tdeposit`,
+      url: `https://whaleoptions-render-e2iz.onrender.com/transactions/${dataObj.userId}/Tdeposit`,
       dataType: "json",
       data: { ...dataObj },
       timeout: 30000,
